@@ -14,9 +14,9 @@ The json file stores current money, the amount of each stock held, and the price
 This program is a work in progress and is in very early stages. There are bound to be bugs/edge-cases I haven't accounted for.
 
 # Planned Features
--GUI
--More companies
--Choose how much money to start with
--See price changes from certain time intervals (%s)
--Option to reset file
--Bug fixes and more documentation
+- GUI
+- More companies
+- Choose how much money to start with
+- See price changes from certain time intervals (%s)
+- Option to reset file
+- Bug fixes and more documentation
