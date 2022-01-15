@@ -19,6 +19,9 @@ companies = ["MSFT","AAPL","TSLA","FB","NVDA","DIS","PYPL"]
 global stockPrices 
 stockPrices = [0,0,0,0,0,0,0,0]
 
+global boughtAt
+boughtAt = [0.0,0.0,0.0,0.0,0.0,0.0,0.0]
+
 
 #Setup the program by checking if data exists, if not create a new data file
 def startup():
@@ -30,7 +33,7 @@ def startup():
         data = {
             "Money": 1000,
             "Stocks": [0,0,0,0,0,0,0],
-            "BoughtAt": [0,0,0,0,0,0,0]
+            "BoughtAt": [0.0,0.0,0.0,0.0,0.0,0.0,0.0]
         }
         jsonString = json.dumps(data)
         file = open('data.json',"w")
@@ -81,10 +84,10 @@ def purchaseStock(spent,company):
     global stockPrices
     index = companies.index(company)
     price = stockPrices[index]
-    stockGained = (price/spent)
+    stockGained = (spent/price)
     data["Stocks"][index] += stockGained
     data["Money"] -= spent
-    data["BoughtAt"] = spent
+    data["BoughtAt"][index] = price
     print("Success, " + str(stockGained) + " of " + company + " purchased")
 
 
@@ -100,6 +103,8 @@ def sellStock(amount, company):
     moneyGained = round(moneyGained,2)
     data["Money"] += moneyGained
     data["Stocks"][index] -= amount
+    if data["Stocks"][index] == 0:
+        data["BoughtAt"][index] = 0
     print("$" + str(moneyGained) + " made from " + str(amount) + " shares of " + company + " sold")
     
 
@@ -136,14 +141,15 @@ def userInput():
         if stockToSell in companies:
             stockHeld = data["Stocks"][companies.index(stockToSell)]
             if stockHeld > 0:
-                amountToSell = input("How much to sell (Amount of stock)?:    ")
-                amountToSell = float(amountToSell)
-                if amountToSell <= stockHeld:
-                    sellStock(amountToSell,stockToSell)
-                elif amountToSell.lower() == "all":
-                    sellStock(stockHeld)
+                amountToSell = input("How much to sell (Amount of stock/all)?:    ")
+                if amountToSell.lower() == "all":
+                    sellStock(stockHeld,stockToSell)
                 else:
-                    print("Error, invalid input")
+                    amountToSell = float(amountToSell)
+                    if amountToSell <= stockHeld and amountToSell > 0:
+                        sellStock(amountToSell,stockToSell)
+                    else:
+                        print("Error, invalid input")
             else:
                 print("Error, no stock held in that company")        
 
@@ -158,9 +164,9 @@ def shutDown():
     global data
     file = open('data.json','w')
     json.dump(data,file)
+    file.close()
     print("Data saved")
     input("Press enter to exit")
-    file.close()
     sys.exit()
 
 
