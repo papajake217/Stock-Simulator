@@ -2,7 +2,7 @@
 A stock simulation program that allows you to buy and sell stock at the following companies: Microsoft, Apple, Tesla, Facebook, Nvidia, Disney, Paypal.  
 # All money and stock in the program is NOT real, this program is merely meant as a "What if."
 
-All stock prices are gathered at runtime and every minute from Yahoo Finance. **These are the real prices of the stocks.** 
+All stock prices are gathered at runtime and every minute from Yahoo Finance. **These are the real prices of the stocks.** This also implies the price only changes when the markets are open (9:30 am - 4 pm).
 
 The user's data is saved in a file called *data.json*, **which is created if the program is ran without it**. This gives you $1000 of startup cash to use, however you could change the value in the json file if you want more money.  
 
